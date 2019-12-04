@@ -26,13 +26,14 @@ namespace PokemonUniversalApp.DAL
 
         public async static Task<Pokemon> LoadPokemonAsync(string pokeUrl)
         {
-            return null;
-            //WebClient wc = new WebClient();
-            //byte[] data = await wc.DownloadDataTaskAsync(new Uri(pokeUrl));
-            //string json = Encoding.UTF8.GetString(data);
-            //Pokemon result = JsonConvert.DeserializeObject<Pokemon>(json);
 
-            //return result;
+            HttpClient hc = new HttpClient();
+            HttpResponseMessage httpResponse = await hc.GetAsync(new Uri(pokeUrl));
+            httpResponse.EnsureSuccessStatusCode();
+            string json = await httpResponse.Content.ReadAsStringAsync();
+            Pokemon result = JsonConvert.DeserializeObject<Pokemon>(json);
+
+            return result;
         }
     }
 }

@@ -15,10 +15,25 @@ namespace PokemonUniversalApp.ViewModels
         public PokedexViewModel()
         {
             LoadPokemons();
+            PropertyChanged += PokedexViewModel_PropertyChanged;
         }
+
+        private void PokedexViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedPokemon")
+            {
+                LoadPokemon(SelectedPokemon.Url);
+            }
+        }
+
         public async void LoadPokemons()
         {
             Pokemons = new ObservableCollection<Pokemon>(await PokeAPI.LoadPokemonsAsync());
+        }
+
+        public async void LoadPokemon(string url)
+        {
+            LoadedPokemon = await PokeAPI.LoadPokemonAsync(url);
         }
         private ObservableCollection<Pokemon> pokemons;
 
@@ -38,7 +53,7 @@ namespace PokemonUniversalApp.ViewModels
         {
             get { return selectedPokemon; }
             set {
-                Set<Pokemon>(() => this.selectedPokemon, ref selectedPokemon, value);
+                Set<Pokemon>(() => SelectedPokemon, ref selectedPokemon, value);
             }
         }
 
@@ -48,7 +63,7 @@ namespace PokemonUniversalApp.ViewModels
         {
             get { return loadedPokemon; }
             set {
-                Set<Pokemon>(() => this.loadedPokemon, ref loadedPokemon, value);
+                Set<Pokemon>(() => LoadedPokemon, ref loadedPokemon, value);
             }
         }
 

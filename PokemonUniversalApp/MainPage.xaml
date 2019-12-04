@@ -16,11 +16,12 @@
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="7*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding Pokemons}" Grid.Row="1">
+        <ListBox ItemsSource="{Binding Pokemons}" SelectedItem="{Binding SelectedPokemon, Mode=TwoWay}" Grid.Row="1">
             
         </ListBox>
         <Border Grid.Row="1" Grid.Column="1">
-            <Image />
+            <Image Source="{Binding LoadedPokemon.Sprites.front_default}" />
         </Border>
+        <TextBlock FontFamily="Segoe UI Light" FontSize="24" Text="{Binding LoadedPokemon.Name}" />
     </Grid>
 </Page>
